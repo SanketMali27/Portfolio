@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanket Mali — Full Stack & AI/ML Developer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #6366f1;
+            --accent: #2dd4bf;
+            --bg: #111827;
+            --surface: #1f2937;
+            --surface2: #374151;
+            --text: #f3f4f6;
+            --muted: #9ca3af;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            scroll-behavior: smooth;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        .font-display {
+            font-family: 'Syne', sans-serif;
+        }
+
+        /* ── Noise texture overlay ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        /* ── Section title underline ── */
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 3rem;
+            height: 3px;
+            margin: 0.5rem auto 0;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 9999px;
+        }
+
+        /* ── Glowing gradient ring on profile image ── */
+        .avatar-ring {
+            background: conic-gradient(from 180deg, #6366f1, #2dd4bf, #6366f1);
+            padding: 3px;
+            border-radius: 9999px;
+            display: inline-block;
+        }
+
+        /* ── Skill tags ── */
+        .skill-tag {
+            transition: all 0.2s ease;
+            cursor: default;
+        }
+
+        .skill-tag:hover {
+            transform: translateY(-2px);
+            background-color: var(--accent);
+            color: #111827;
+        }
+
+        /* ── Project cards ── */
+        .project-card {
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(99, 102, 241, 0.35);
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        .project-card:hover .card-arrow {
+            transform: translate(3px, -3px);
+            color: var(--accent);
+        }
+
+        .card-arrow {
+            transition: transform 0.25s ease, color 0.25s ease;
+        }
+
+        /* ── Certificate cards ── */
+        .certificate-card {
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .certificate-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(45, 212, 191, 0.08) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .certificate-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(45, 212, 191, 0.35);
+        }
+
+        .certificate-card:hover::before {
+            opacity: 1;
+        }
+
+        .certificate-card:hover .card-arrow {
+            transform: translate(3px, -3px);
+            color: var(--accent);
+        }
+
+        /* ── Line clamping ── */
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* ── Animations ── */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(28px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.94);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .animate-fade-up {
+            animation: fadeUp 0.9s ease both;
+        }
+
+        .animate-scale-in {
+            animation: scaleIn 0.3s ease both;
+        }
+
+        .delay-1 {
+            animation-delay: 0.15s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.3s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.45s;
+        }
+
+        /* ── Floating dots hero decoration ── */
+        .dot-grid {
+            background-image: radial-gradient(circle, rgba(99, 102, 241, 0.25) 1px, transparent 1px);
+            background-size: 28px 28px;
+        }
+
+        /* ── Modal ── */
+        .modal-overlay {
+            backdrop-filter: blur(6px);
+        }
+
+        /* ── Timeline ── */
+        .timeline-dot {
+            width: 14px;
+            height: 14px;
+            background: var(--primary);
+            border-radius: 50%;
+            position: absolute;
+            left: -7px;
+            top: 6px;
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.6);
+        }
+
+        /* ── Interest cards ── */
+        .interest-card {
+            transition: all 0.25s ease;
+        }
+
+        .interest-card:hover {
+            transform: translateY(-5px);
+            background-color: var(--surface2);
+        }
+
+        /* ── Scrollbar ── */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 3px;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <!-- ═══════════════════════════ NAVBAR ═══════════════════════════ -->
+    <header id="site-header"
+        class="sticky top-0 z-50 bg-gray-900/80 backdrop-blur-md border-b border-gray-800/60 transition-all duration-300">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+            <a href="index.html"
+                class="text-xl font-display font-extrabold tracking-widest hover:text-indigo-400 transition-colors">
+                <span class="text-indigo-400">S</span>anket<span class="text-teal-400">.</span>Dev
+            </a>
+
+            <div class="hidden md:flex items-center space-x-7">
+                <a href="#home" class="text-gray-400 hover:text-teal-400 transition-colors text-sm font-medium">Home</a>
+                <a href="#about"
+                    class="text-gray-400 hover:text-teal-400 transition-colors text-sm font-medium">About</a>
+                <a href="#skills"
+                    class="text-gray-400 hover:text-teal-400 transition-colors text-sm font-medium">Skills</a>
+                <a href="#projects"
+                    class="text-gray-400 hover:text-teal-400 transition-colors text-sm font-medium">Projects</a>
+                <a href="projects.html"
+                    class="text-gray-400 hover:text-teal-400 transition-colors text-sm font-medium">All Projects</a>
+                <a href="#certificates"
+                    class="text-gray-400 hover:text-teal-400 transition-colors text-sm font-medium">Certificates</a>
+                <a href="certificates.html"
+                    class="text-gray-400 hover:text-teal-400 transition-colors text-sm font-medium">All Certificates</a>
+                <a href="#education"
+                    class="text-gray-400 hover:text-teal-400 transition-colors text-sm font-medium">Education</a>
+                <a href="#more"
+                    class="text-gray-400 hover:text-teal-400 transition-colors text-sm font-medium">Interests</a>
+                <button onclick="openContactModal()"
+                    class="px-4 py-1.5 text-sm font-semibold rounded-full border border-indigo-500 text-indigo-300 hover:bg-indigo-500 hover:text-white transition-all">Contact</button>
+            </div>
+
+            <button id="mobile-menu-btn" class="md:hidden text-gray-300 hover:text-teal-400">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </nav>
+
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-900 border-t border-gray-800">
+            <div class="px-4 py-3 flex flex-col gap-2 text-center">
+                <a href="#home" onclick="toggleMobileMenu()"
+                    class="py-2 text-gray-300 hover:text-teal-400 transition-colors">Home</a>
+                <a href="#about" onclick="toggleMobileMenu()"
+                    class="py-2 text-gray-300 hover:text-teal-400 transition-colors">About</a>
+                <a href="#skills" onclick="toggleMobileMenu()"
+                    class="py-2 text-gray-300 hover:text-teal-400 transition-colors">Skills</a>
+                <a href="#projects" onclick="toggleMobileMenu()"
+                    class="py-2 text-gray-300 hover:text-teal-400 transition-colors">Projects</a>
+                <a href="projects.html" onclick="toggleMobileMenu()"
+                    class="py-2 text-gray-300 hover:text-teal-400 transition-colors">All Projects</a>
+                <a href="#certificates" onclick="toggleMobileMenu()"
+                    class="py-2 text-gray-300 hover:text-teal-400 transition-colors">Certificates</a>
+                <a href="certificates.html" onclick="toggleMobileMenu()"
+                    class="py-2 text-gray-300 hover:text-teal-400 transition-colors">All Certificates</a>
+                <a href="#education" onclick="toggleMobileMenu()"
+                    class="py-2 text-gray-300 hover:text-teal-400 transition-colors">Education</a>
+                <a href="#more" onclick="toggleMobileMenu()"
+                    class="py-2 text-gray-300 hover:text-teal-400 transition-colors">Interests</a>
+                <button onclick="openContactModal(); toggleMobileMenu();"
+                    class="py-2 text-indigo-300 hover:text-indigo-200 transition-colors">Contact</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- ═══════════════════════════ HERO ═══════════════════════════ -->
+        <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+            <!-- Background -->
+            <div class="absolute inset-0 bg-gradient-to-br from-gray-950 via-gray-900 to-indigo-950 z-0"></div>
+            <div class="absolute inset-0 dot-grid z-0 opacity-40"></div>
+            <!-- Glow blobs -->
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl z-0"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-teal-500/10 rounded-full blur-3xl z-0"></div>
+
+            <div class="relative z-10 text-center max-w-4xl px-6 mx-auto">
+                <!-- Avatar -->
+                <div class="animate-fade-up flex justify-center mb-8">
+                    <div class="avatar-ring">
+                        <img src="https://placehold.co/200x200/4f46e5/ffffff?text=SM" alt="Sanket Mali"
+                            class="w-36 h-36 object-cover rounded-full block hover:scale-105 transition-transform duration-500">
+                    </div>
+                </div>
+
+                <h1
+                    class="animate-fade-up delay-1 text-5xl sm:text-7xl font-display font-extrabold leading-tight mb-4 text-white">
+                    Hi, I'm <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-teal-400">Sanket
+                        Mali</span>
+                </h1>
+
+                <p class="animate-fade-up delay-2 text-2xl sm:text-3xl font-light text-teal-400 mb-5 tracking-wide">
+                    Full Stack &amp; AI/ML Developer
+                </p>
+
+                <p
+                    class="animate-fade-up delay-3 text-base sm:text-lg text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed">
+                    Final-year B.Tech CSBS student building LLM-based systems and full-stack products, including a
+                    LangGraph research agent with RAG, persistent memory, observability, and cloud-deployed
+                    applications.
+                </p>
+
+                <div class="animate-fade-up delay-3 flex flex-col sm:flex-row justify-center gap-4 mb-10">
+                    <a href="Sanket_Mali_Resume.pdf" target="_blank"
+                        class="px-8 py-3 bg-indigo-500 text-white font-semibold rounded-full shadow-lg hover:bg-indigo-600 transition duration-300 hover:scale-105 transform">
+                        <i class="fas fa-file-alt mr-2"></i> View Resume
+                    </a>
+                    <button onclick="openContactModal()"
+                        class="px-8 py-3 bg-teal-400 text-gray-900 font-semibold rounded-full shadow-lg hover:bg-teal-300 transition duration-300 hover:scale-105 transform">
+                        <i class="fas fa-paper-plane mr-2"></i> Get In Touch
+                    </button>
+                </div>
+
+                <div class="animate-fade-up delay-3 flex justify-center gap-6 text-2xl">
+                    <a href="https://linkedin.com/in/sanket-mali27" target="_blank"
+                        class="text-gray-500 hover:text-indigo-400 transition-colors"><i
+                            class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/SanketMali27" target="_blank"
+                        class="text-gray-500 hover:text-indigo-400 transition-colors"><i class="fab fa-github"></i></a>
+                    <a href="https://leetcode.com/u/sanketmali27/" target="_blank"
+                        class="text-gray-500 hover:text-indigo-400 transition-colors"><i class="fas fa-code"></i></a>
+                    <a href="mailto:sanketsmali27@gmail.com"
+                        class="text-gray-500 hover:text-indigo-400 transition-colors"><i
+                            class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════ ABOUT ═══════════════════════════ -->
+        <section id="about" class="py-4">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="section-title text-3xl sm:text-4xl font-display font-bold text-center mb-16 w-full block">
+                    About Me</h2>
+
+                <div class="lg:grid lg:grid-cols-3 gap-14 items-start">
+                    <!-- Text -->
+                    <div class="lg:col-span-2 text-base leading-relaxed space-y-5 mb-12 lg:mb-0 text-gray-300">
+                        <p>I'm a passionate technology enthusiast a final-year B.Tech student in Computer Science and
+                            Business Systems (CSBS). My academic journey has equipped me with a strong
+                            foundation in modern computing technologies and the business applications of tech.</p>
+
+                        <p>I thrive on building <strong class="text-white">full-stack web applications</strong>,
+                            specialising in modern stacks like <strong class="text-white">React, Node.js, FastAPI, and
+                                MongoDB</strong>, alongside LLM applications and RAG pipelines. My focus is on creating
+                            solutions that are not just functional, but
+                            scalable, efficient, and user-friendly. Every project is an opportunity to dive deeper into
+                            system design.</p>
+
+                        <p class="italic text-teal-400 text-lg border-l-4 border-teal-500 pl-4">"My ultimate goal is to
+                            leverage robust development practices to solve complex, real-world problems and contribute
+                            positively to the tech community."</p>
+
+                        <!-- Quick Profile -->
+                        <div class="mt-6 p-6 rounded-2xl bg-gray-800 border border-gray-700 shadow-xl">
+                            <h4 class="text-lg font-display font-semibold mb-4 text-indigo-400">Quick Profile</h4>
+                            <ul class="space-y-2.5 text-sm text-gray-300">
+                                <li class="flex justify-between items-center border-b border-gray-700 pb-2">
+                                    <span><i class="fas fa-graduation-cap mr-2 text-indigo-400"></i> Degree</span>
+                                    <span class="text-white font-medium">B.Tech. (CSBS)</span>
+                                </li>
+                                <li class="flex justify-between items-center border-b border-gray-700 pb-2">
+                                    <span><i class="fas fa-university mr-2 text-teal-400"></i> Institute</span>
+                                    <span class="text-white font-medium text-right max-w-xs">JSPM Rajarshi Shahu College
+                                        of Engineering</span>
+                                </li>
+                                <li class="flex justify-between items-center">
+                                    <span><i class="fas fa-layer-group mr-2 text-indigo-400"></i> Current Year</span>
+                                    <span class="text-white font-medium">Final Year</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="lg:col-span-1 grid grid-cols-2 gap-5">
+                        <div
+                            class="p-6 bg-gray-800 rounded-2xl text-center border border-gray-700 border-b-4 border-b-teal-400 hover:-translate-y-1 hover:scale-105 transition duration-300 shadow-lg">
+                            <p class="text-5xl font-display font-extrabold text-teal-400 mb-2">10+</p>
+                            <p class="text-gray-400 text-sm font-medium">Resume Projects</p>
+                        </div>
+                        <div
+                            class="p-6 bg-gray-800 rounded-2xl text-center border border-gray-700 border-b-4 border-b-indigo-400 hover:-translate-y-1 hover:scale-105 transition duration-300 shadow-lg">
+                            <p class="text-2xl font-display font-extrabold text-indigo-400 mb-2">600+ LeetCode Problems
+                            </p>
+                            <p class="text-gray-400 text-sm font-medium">Solved in C++ on LeetCode</p>
+                        </div>
+                        <div
+                            class="p-6 bg-gray-800 rounded-2xl text-center border border-gray-700 border-b-4 border-b-teal-400 hover:-translate-y-1 hover:scale-105 transition duration-300 shadow-lg">
+                            <p class="text-5xl font-display font-extrabold text-teal-400 mb-2">∞</p>
+                            <p class="text-gray-400 text-sm font-medium">Learning Attitude</p>
+                        </div>
+                        <div
+                            class="p-6 bg-gray-800 rounded-2xl text-center border border-gray-700 border-b-4 border-b-indigo-400 hover:-translate-y-1 hover:scale-105 transition duration-300 shadow-lg">
+                            <p class="text-3xl font-display font-extrabold text-indigo-400 mb-2">Full</p>
+                            <p class="text-gray-400 text-sm font-medium">Stack Capability</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════ SKILLS ═══════════════════════════ -->
+        <section id="skills" class="py-16 bg-gray-900">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="section-title text-3xl sm:text-4xl font-display font-bold text-center mb-16 w-full block">
+                    Technical Skills
+                </h2>
+
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-7">
+
+                    <!-- AI / ML & Agentic AI -->
+                    <div
+                        class="p-7 bg-gray-800 rounded-2xl border border-gray-700 border-t-4 border-t-purple-500 hover:shadow-purple-500/30 hover:shadow-xl transition duration-300">
+                        <i class="fas fa-brain text-3xl text-purple-400 mb-4"></i>
+                        <h3 class="text-xl font-display font-semibold mb-4 text-white">
+                            AI / ML & Agentic AI
+                        </h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">LLMs</span>
+                            <span class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">RAG
+                                Pipelines</span>
+                            <span class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">Agentic
+                                AI</span>
+                            <span class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">Multi-Agent
+                                Systems</span>
+                            <span
+                                class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">LangChain</span>
+                            <span
+                                class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">LangGraph</span>
+                            <span class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">MCP</span>
+                            <span class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">Prompt
+                                Engineering</span>
+                            <span class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">LLM
+                                Guardrails</span>
+                            <span class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">LLM
+                                Evaluation</span>
+                            <span
+                                class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">LangSmith</span>
+                            <span
+                                class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">PyTorch</span>
+                            <span
+                                class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">scikit-learn</span>
+                            <span class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">CNN</span>
+                        </div>
+                    </div>
+
+                    <!-- Frontend -->
+                    <div
+                        class="p-7 bg-gray-800 rounded-2xl border border-gray-700 border-t-4 border-t-indigo-500 hover:shadow-indigo-500/30 hover:shadow-xl transition duration-300">
+                        <i class="fas fa-laptop-code text-3xl text-indigo-400 mb-4"></i>
+                        <h3 class="text-xl font-display font-semibold mb-4 text-white">Frontend</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">HTML5</span>
+                            <span class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">CSS3</span>
+                            <span class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">JavaScript
+                                ES6+</span>
+                            <span
+                                class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">TypeScript</span>
+                            <span
+                                class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">React.js</span>
+                            <span
+                                class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">Next.js</span>
+                            <span class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">Tailwind
+                                CSS</span>
+                        </div>
+                    </div>
+
+                    <!-- Backend -->
+                    <div
+                        class="p-7 bg-gray-800 rounded-2xl border border-gray-700 border-t-4 border-t-teal-500 hover:shadow-teal-500/30 hover:shadow-xl transition duration-300">
+                        <i class="fas fa-server text-3xl text-teal-400 mb-4"></i>
+                        <h3 class="text-xl font-display font-semibold mb-4 text-white">Backend & APIs</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">Node.js</span>
+                            <span
+                                class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">Express.js</span>
+                            <span
+                                class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">FastAPI</span>
+                            <span class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">REST
+                                APIs</span>
+                            <span class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">JWT
+                                Authentication</span>
+                            <span
+                                class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">Python</span>
+                            <span class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">C++</span>
+                            <span class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">SQL</span>
+                        </div>
+                    </div>
+
+                    <!-- Databases -->
+                    <div
+                        class="p-7 bg-gray-800 rounded-2xl border border-gray-700 border-t-4 border-t-blue-500 hover:shadow-blue-500/30 hover:shadow-xl transition duration-300">
+                        <i class="fas fa-database text-3xl text-blue-400 mb-4"></i>
+                        <h3 class="text-xl font-display font-semibold mb-4 text-white">Databases & Storage</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">MongoDB</span>
+                            <span
+                                class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">PostgreSQL</span>
+                            <span
+                                class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">Qdrant</span>
+                            <span
+                                class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">Redis</span>
+                            <span class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">SQL</span>
+                        </div>
+                    </div>
+
+                    <!-- Cloud & DevOps -->
+                    <div
+                        class="p-7 bg-gray-800 rounded-2xl border border-gray-700 border-t-4 border-t-orange-500 hover:shadow-orange-500/30 hover:shadow-xl transition duration-300">
+                        <i class="fas fa-cloud text-3xl text-orange-400 mb-4"></i>
+                        <h3 class="text-xl font-display font-semibold mb-4 text-white">Cloud & DevOps</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">AWS
+                                S3</span>
+                            <span class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">AWS
+                                EC2</span>
+                            <span
+                                class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">Docker</span>
+                            <span <span
+                                class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">Git</span>
+                            <span
+                                class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">GitHub</span>
+                        </div>
+                    </div>
+
+                    <!-- Data Analysis & Problem Solving -->
+                    <div
+                        class="p-7 bg-gray-800 rounded-2xl border border-gray-700 border-t-4 border-t-pink-500 hover:shadow-pink-500/30 hover:shadow-xl transition duration-300">
+                        <i class="fas fa-chart-line text-3xl text-pink-400 mb-4"></i>
+                        <h3 class="text-xl font-display font-semibold mb-4 text-white">Data & Problem Solving</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">Pandas</span>
+                            <span
+                                class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">NumPy</span>
+                            <span
+                                class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">Matplotlib</span>
+                            <span class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">Jupyter
+                                Notebook</span>
+                            <span class="skill-tag px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">DSA</span>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ═══════════════════════════ PROJECTS ═══════════════════════════ -->
+        <section id="projects" class="py-4">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="section-title text-3xl sm:text-4xl font-display font-bold text-center mb-4 w-full block">
+                    Featured Projects</h2>
+                <p class="text-center text-gray-400 mb-14 text-sm">Click any project to see full details</p>
+
+                <div id="projects-grid" class="grid lg:grid-cols-3 gap-8">
+                    <!-- Cards injected by JS -->
+                </div>
+
+                <div class="text-center mt-12">
+                    <a href="projects.html"
+                        class="inline-flex items-center gap-2 px-7 py-3 rounded-full border border-indigo-500 text-indigo-300 hover:bg-indigo-500 hover:text-white transition-all font-semibold text-sm">
+                        View All Projects <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════ CERTIFICATES ═══════════════════════════ -->
+        <section id="certificates" class="py-4 bg-gray-900">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="section-title text-3xl sm:text-4xl font-display font-bold text-center mb-4 w-full block">
+                    Certifications</h2>
+                <p class="text-center text-gray-400 mb-14 text-sm">Professional certifications and achievements</p>
+
+                <div id="certificates-grid" class="grid lg:grid-cols-3 gap-8">
+                    <!-- Certificate cards injected by JS -->
+                </div>
+
+                <div class="text-center mt-12">
+                    <a href="certificates.html"
+                        class="inline-flex items-center gap-2 px-7 py-3 rounded-full border border-teal-500 text-teal-300 hover:bg-teal-500 hover:text-white transition-all font-semibold text-sm">
+                        View All Certificates <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════ EDUCATION ═══════════════════════════ -->
+        <section id="education" class="py-4 bg-gray-900">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="section-title text-3xl sm:text-4xl font-display font-bold text-center mb-16 w-full block">
+                    Education & Academics</h2>
+
+                <div class="grid lg:grid-cols-2 gap-10">
+
+                    <!-- Degree -->
+                    <div
+                        class="bg-gray-800 p-8 rounded-2xl border border-gray-700 border-l-4 border-l-indigo-500 shadow-xl">
+                        <h3 class="text-2xl font-display font-bold mb-6 text-white">
+                            <i class="fas fa-graduation-cap mr-2 text-indigo-400"></i> Bachelor of Technology
+                        </h3>
+                        <div class="relative pl-6 border-l-2 border-dashed border-indigo-700 space-y-8">
+                            <div class="relative">
+                                <div class="timeline-dot"></div>
+                                <p class="text-lg font-semibold text-teal-400">Computer Science And Business Systems
+                                    (CSBS)</p>
+                                <p class="text-sm text-gray-400 italic mb-2">JSPM Rajarshi Shahu College of Engineering
+                                    (Affiliated to SPPU)</p>
+                                <p class="text-sm text-gray-500">Expected graduation: 2027 — focused on software
+                                    engineering, AI systems, and business applications of technology.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Academic Background & Activities -->
+                    <div class="space-y-8">
+                        <div
+                            class="bg-gray-800 p-8 rounded-2xl border border-gray-700 border-l-4 border-l-teal-400 shadow-xl">
+                            <h4 class="text-2xl font-display font-bold mb-5 text-white flex items-center">
+                                <i class="fas fa-book-open mr-3 text-teal-400"></i> Academic Background
+                            </h4>
+                            <ul class="space-y-3 text-gray-300 text-sm">
+                                <li class="bg-gray-900/60 px-4 py-3 rounded-lg">
+                                    <span class="text-teal-300 font-semibold">10th Standard:</span> Krishna English
+                                    Medium School, Karad (2021) — <span class="font-bold text-indigo-300">80%</span>
+                                </li>
+                                <li class="bg-gray-900/60 px-4 py-3 rounded-lg">
+                                    <span class="text-teal-300 font-semibold">12th:</span> Adv. Dadasaheb Chava College,
+                                    Karad (2023) — <span class="font-bold text-indigo-300">70%</span>
+                                </li>
+                            </ul>
+                            <h4 class="text-base font-semibold mt-5 mb-3 text-white border-t border-gray-700 pt-4">
+                                <i class="fas fa-globe-americas mr-2 text-indigo-400"></i> Languages
+                            </h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">Marathi
+                                    (Native)</span>
+                                <span class="px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">Hindi
+                                    (Fluent)</span>
+                                <span class="px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">English
+                                    (Fluent)</span>
+                            </div>
+                        </div>
+
+                        <div
+                            class="bg-gray-800 p-8 rounded-2xl border border-gray-700 border-l-4 border-l-indigo-400 shadow-xl">
+                            <h4 class="text-xl font-display font-bold mb-4 text-white">
+                                <i class="fas fa-bolt mr-2 text-indigo-400"></i> Activities & Involvement
+                            </h4>
+                            <h5 class="text-sm font-semibold text-teal-400 mb-2 uppercase tracking-wider">Co-curricular
+                            </h5>
+                            <ul class="list-disc ml-5 space-y-1.5 text-gray-400 text-sm mb-4">
+                                <li>Attended Workshops, Seminars, and Webinars on emerging tech.</li>
+                                <li>Participated in Guest Lectures and Expert Talks.</li>
+                            </ul>
+                            <h5 class="text-sm font-semibold text-teal-400 mb-2 uppercase tracking-wider">
+                                Extra-curricular</h5>
+                            <ul class="list-disc ml-5 space-y-1.5 text-gray-400 text-sm">
+                                <li>Volunteer Work / Social Initiatives.</li>
+                                <li>Sports & Cultural Participation.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════ INTERESTS ═══════════════════════════ -->
+        <section id="more" class="py-4">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="section-title text-3xl sm:text-4xl font-display font-bold text-center mb-16 w-full block">
+                    More About Me</h2>
+
+                <div class="bg-gray-800 rounded-2xl p-8 border border-gray-700 border-t-4 border-t-teal-400 shadow-2xl">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-7 mb-10">
+                        <div class="interest-card text-center p-6 bg-gray-900/60 rounded-xl">
+                            <i class="fas fa-book-open text-yellow-400 text-3xl mb-4"></i>
+                            <h3 class="text-lg font-display font-semibold mb-2 text-white">Reading Books</h3>
+                            <p class="text-gray-400 text-sm">Love exploring history, philosophy, and polity — gaining
+                                new perspectives through words.</p>
+                        </div>
+                        <div class="interest-card text-center p-6 bg-gray-900/60 rounded-xl">
+                            <i class="fas fa-mountain text-teal-400 text-3xl mb-4"></i>
+                            <h3 class="text-lg font-display font-semibold mb-2 text-white">Exploring Nature</h3>
+                            <p class="text-gray-400 text-sm">Find peace in mountains, greenery, and open skies — nature
+                                refreshes my creativity.</p>
+                        </div>
+                        <div class="interest-card text-center p-6 bg-gray-900/60 rounded-xl">
+                            <i class="fas fa-hands-helping text-pink-400 text-3xl mb-4"></i>
+                            <h3 class="text-lg font-display font-semibold mb-2 text-white">Social Work</h3>
+                            <p class="text-gray-400 text-sm">Believe in giving back — helping others brings real
+                                happiness and purpose.</p>
+                        </div>
+                    </div>
+                    <div class="text-center pt-6 border-t border-gray-700">
+                        <p class="text-gray-400 text-base leading-relaxed max-w-2xl mx-auto">
+                            When I'm not coding or studying, I enjoy reading thought-provoking books, playing cricket,
+                            exploring nature's calm beauty, and taking part in social causes. I believe in lifelong
+                            learning, teamwork, and making a positive difference in both the digital and real world.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
+    <footer class="bg-gray-950 border-t border-gray-800 py-10">
+        <div class="container mx-auto px-4 text-center">
+            <div class="flex justify-center gap-6 mb-5 text-2xl">
+                <a href="https://github.com/SanketMali27" target="_blank"
+                    class="text-gray-500 hover:text-indigo-400 transition-colors"><i class="fab fa-github"></i></a>
+                <a href="https://leetcode.com/u/sanketmali27/" target="_blank"
+                    class="text-gray-500 hover:text-indigo-400 transition-colors"><i class="fas fa-code"></i></a>
+                <a href="https://linkedin.com/in/sanket-mali27" target="_blank"
+                    class="text-gray-500 hover:text-indigo-400 transition-colors"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <p class="text-gray-600 text-sm">&copy; 2026 Sanket Mali. Crafted with <span class="text-red-500">❤️</span>
+                and Code.</p>
+        </div>
+    </footer>
+
+    <!-- ═══════════════════════════ CONTACT MODAL ═══════════════════════════ -->
+    <div id="contact-modal"
+        class="fixed inset-0 bg-gray-950/80 modal-overlay hidden z-[10000] items-center justify-center"
+        onclick="closeContactModal(event)">
+        <div class="bg-gray-800 border border-gray-700 rounded-2xl p-8 max-w-lg w-11/12 shadow-2xl relative animate-scale-in"
+            onclick="event.stopPropagation()">
+            <button onclick="closeContactModal()"
+                class="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors text-xl">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3 class="text-2xl font-display font-bold mb-2 text-center text-white">Let's Connect</h3>
+            <p class="text-gray-500 text-center text-sm mb-7">Ready to start a project? Tell me about your needs.</p>
+
+            <form id="contact-form" onsubmit="handleContactSubmit(event)" class="space-y-4">
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <input type="text" name="from_name" placeholder="Your Name" required
+                        class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+                    <input type="email" name="user_email" placeholder="Your Email" required
+                        class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+                </div>
+
+                <div class="p-4 bg-gray-700 rounded-xl">
+                    <h4 class="font-semibold mb-3 text-white text-sm">Areas of Interest <span
+                            class="text-red-400">*</span></h4>
+                    <div class="grid grid-cols-2 gap-2 text-xs text-gray-300">
+                        <input type="hidden" name="user_interest" id="user-interest-field" value="">
+                        <label class="flex items-center gap-2 hover:text-teal-400 transition-colors cursor-pointer">
+                            <input type="checkbox" class="interest-checkbox" value="Project Collaboration"> Project
+                            Collaboration
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-teal-400 transition-colors cursor-pointer">
+                            <input type="checkbox" class="interest-checkbox" value="Job/Internship Opportunity">
+                            Job/Internship
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-teal-400 transition-colors cursor-pointer">
+                            <input type="checkbox" class="interest-checkbox" value="Freelance Project"> Freelance
+                            Project
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-teal-400 transition-colors cursor-pointer">
+                            <input type="checkbox" class="interest-checkbox" value="General Inquiry"> General Inquiry
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-teal-400 transition-colors cursor-pointer">
+                            <input type="checkbox" class="interest-checkbox" value="Mentorship/Advice">
+                            Mentorship/Advice
+                        </label>
+                    </div>
+                </div>
+
+                <textarea name="message" placeholder="Your Message" rows="4" required
+                    class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm resize-none"></textarea>
+
+                <div id="form-message" class="text-center text-xs font-medium hidden p-2 rounded-lg"></div>
+
+                <button type="submit" id="submit-btn"
+                    class="w-full py-3 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition duration-300 hover:scale-[1.02] transform text-sm">
+                    Send Message
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════ PROJECT DETAIL MODAL ═══════════════════════════ -->
+    <div id="project-modal"
+        class="fixed inset-0 bg-gray-950/85 modal-overlay hidden z-[9000] items-center justify-center p-4"
+        onclick="closeProjectModal(event)">
+        <div id="project-modal-content"
+            class="bg-gray-800 border border-gray-700 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative animate-scale-in"
+            onclick="event.stopPropagation()">
+            <!-- content injected by JS -->
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════ CERTIFICATE MODAL ═══════════════════════════ -->
+    <div id="certificate-modal"
+        class="fixed inset-0 bg-gray-950/85 modal-overlay hidden z-[9000] items-center justify-center p-4"
+        onclick="closeCertificateModal(event)">
+        <div id="certificate-modal-content"
+            class="bg-gray-800 border border-gray-700 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative animate-scale-in"
+            onclick="event.stopPropagation()">
+            <!-- content injected by JS -->
+        </div>
+    </div>
+
+    <!-- Load shared data -->
+    <script src="projects-data.js"></script>
+    <script src="certificates-data.js"></script>
+
+    <script>
+        // ── EmailJS config ──
+        const SERVICE_ID = 'YOUR_EMAILJS_SERVICE_ID';
+        const TEMPLATE_ID = 'YOUR_EMAILJS_TEMPLATE_ID';
+        const PUBLIC_KEY = 'YOUR_EMAILJS_PUBLIC_KEY';
+
+        if (!PUBLIC_KEY.startsWith('YOUR')) emailjs.init(PUBLIC_KEY);
+
+        // ── Render project cards ──
+        function renderProjectCards() {
+            const grid = document.getElementById('projects-grid');
+            if (!grid) return;
+            const featured = PROJECTS.slice(0, 6);
+            grid.innerHTML = featured.map(p => `
+                <div class="project-card bg-gray-800 border border-gray-700 rounded-2xl overflow-hidden" onclick="openProjectModal('${p.id}')">
+                    <div class="p-5 bg-gray-900 border-b-4 border-${p.accent}-500 flex justify-between items-start">
+                        <h3 class="text-lg font-display font-bold text-white leading-snug pr-3">${p.title}</h3>
+                        <i class="fas fa-arrow-up-right-from-square text-gray-600 card-arrow mt-1 shrink-0"></i>
+                    </div>
+                    <div class="p-5">
+                        <p class="text-gray-400 text-sm mb-5 leading-relaxed line-clamp-3">${p.shortDesc}</p>
+                        <div class="flex flex-wrap gap-2 mb-5">
+                            ${p.tags.map(t => `<span class="px-2.5 py-1 bg-${p.accent}-500/15 text-${p.accent}-300 rounded-full text-xs font-medium">${t}</span>`).join('')}
+                        </div>
+                        <div class="flex gap-4 text-xs font-semibold">
+                            ${p.highlights.map(h => `<span class="text-gray-500"><i class="${h.icon} mr-1"></i>${h.label}</span>`).join('')}
+                        </div>
+                        <button class="mt-5 text-sm text-${p.accent}-400 hover:text-${p.accent}-300 font-semibold flex items-center gap-1 transition-colors">
+                            View Details <i class="fas fa-chevron-right text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ── Render certificate cards ──
+        function renderCertificateCards() {
+            const grid = document.getElementById('certificates-grid');
+            if (!grid) return;
+            const featured = CERTIFICATES.slice(0, 6);
+            grid.innerHTML = featured.map(c => `
+                <div class="certificate-card bg-gray-800 border border-gray-700 rounded-2xl overflow-hidden" onclick="openCertificateModal('${c.id}')">
+                    <div class="p-5 bg-gray-900 border-b-4 border-teal-500 flex justify-between items-start">
+                        <div class="flex-1 min-w-0">
+                            <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-teal-500/20 text-teal-300 mb-2 inline-block">${c.status}</span>
+                            <h3 class="text-lg font-display font-bold text-white leading-snug pr-3 line-clamp-2">${c.title}</h3>
+                            <p class="text-sm text-gray-400 mt-1 truncate">${c.issuer}</p>
+                        </div>
+                        <i class="fas fa-arrow-up-right-from-square text-gray-600 card-arrow mt-1 shrink-0 ml-3"></i>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex items-center gap-2 text-xs text-gray-500 mb-3">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>Issued: ${c.issueDate}</span>
+                        </div>
+                        <p class="text-gray-400 text-sm mb-4 leading-relaxed line-clamp-3">${c.description}</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            ${c.skills.slice(0, 3).map(s => `<span class="px-2.5 py-1 bg-gray-700 text-gray-300 rounded-full text-xs">${s}</span>`).join('')}
+                            ${c.skills.length > 3 ? `<span class="px-2.5 py-1 bg-gray-700 text-gray-300 rounded-full text-xs">+${c.skills.length - 3}</span>` : ''}
+                        </div>
+                        <button class="mt-3 text-sm text-teal-400 hover:text-teal-300 font-semibold flex items-center gap-1 transition-colors">
+                            View Details <i class="fas fa-chevron-right text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ── Certificate detail modal ──
+        function openCertificateModal(id) {
+            const c = CERTIFICATES.find(x => x.id === id);
+            if (!c) return;
+            const statusColor = c.status === 'Active' ? 'teal' : 'yellow';
+            document.getElementById('certificate-modal-content').innerHTML = `
+                <div class="p-7 bg-gray-900 border-b-4 border-${statusColor}-500 rounded-t-2xl relative">
+                    <button onclick="closeCertificateModal()" class="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors text-xl">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-${statusColor}-500/20 text-${statusColor}-300 mb-3">${c.status}</span>
+                    <h2 class="text-2xl font-display font-bold text-white mb-1">${c.title}</h2>
+                    <p class="text-gray-400 text-sm mb-4">${c.issuer}</p>
+                    <div class="flex items-center gap-4 text-sm text-gray-400">
+                        <div><i class="fas fa-calendar-alt mr-1"></i> Issued: ${c.issueDate}</div>
+                        ${c.expiryDate !== 'No Expiry' ? `<div><i class="fas fa-clock mr-1"></i> Expires: ${c.expiryDate}</div>` : '<div><i class="fas fa-infinity mr-1"></i> No Expiry</div>'}
+                    </div>
+                </div>
+                <div class="p-7 space-y-6">
+                    <div class="text-center">
+                        <img src="${c.image}" alt="${c.title}" class="w-32 h-32 object-contain mx-auto mb-4 rounded-lg bg-white/10 p-2">
+                            <p class="text-xs text-gray-500">Credential ID: ${c.credentialId}</p>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-semibold uppercase tracking-wider text-teal-400 mb-3">Description</h4>
+                        <div class="text-gray-300 text-sm leading-relaxed">${c.description}</div>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-semibold uppercase tracking-wider text-teal-400 mb-3">Skills Gained</h4>
+                        <div class="flex flex-wrap gap-2">
+                            ${c.skills.map(s => `<span class="px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">${s}</span>`).join('')}
+                        </div>
+                    </div>
+                    <div class="flex gap-4 pt-4 border-t border-gray-700">
+                        <a href="${c.verificationUrl}" target="_blank" class="flex items-center gap-2 px-5 py-2.5 bg-gray-700 hover:bg-gray-600 text-white rounded-xl text-sm font-semibold transition-colors">
+                            <i class="fas fa-external-link-alt"></i> Verify Certificate
+                        </a>
+                        <a href="${c.image}" target="_blank" class="flex items-center gap-2 px-5 py-2.5 bg-teal-500 hover:bg-teal-400 text-gray-900 rounded-xl text-sm font-semibold transition-colors">
+                            <i class="fas fa-image"></i> View Certificate
+                        </a>
+                    </div>
+                </div>
+    `;
+            const modal = document.getElementById('certificate-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCertificateModal(event) {
+            if (event && event.target !== document.getElementById('certificate-modal')) return;
+            _closeCertificateModal();
+        }
+        function _closeCertificateModal() {
+            const modal = document.getElementById('certificate-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+
+        // ── Project detail modal ──
+        function openProjectModal(id) {
+            const p = PROJECTS.find(x => x.id === id);
+            if (!p) return;
+
+            const statusColor = p.status === 'Completed' ? 'teal' : 'yellow';
+            document.getElementById('project-modal-content').innerHTML = `
+                <div class="p-7 bg-gray-900 border-b-4 border-${p.accent}-500 rounded-t-2xl relative">
+                    <button onclick="closeProjectModal()" class="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors text-xl">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-${statusColor}-500/20 text-${statusColor}-300 mb-3">${p.status}</span>
+                    <h2 class="text-2xl font-display font-bold text-white mb-1">${p.title}</h2>
+                    <p class="text-gray-400 text-sm">${p.tagline}</p>
+                </div>
+                <div class="p-7 space-y-6">
+                    <div>
+                        <h4 class="text-sm font-semibold uppercase tracking-wider text-${p.accent}-400 mb-3">Tech Stack</h4>
+                        <div class="flex flex-wrap gap-2">
+                            ${p.tags.map(t => `<span class="px-3 py-1 bg-gray-700 rounded-full text-xs text-gray-300">${t}</span>`).join('')}
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-semibold uppercase tracking-wider text-${p.accent}-400 mb-3">Overview</h4>
+                        <div class="text-gray-300 text-sm leading-relaxed">${p.longDesc}</div>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-semibold uppercase tracking-wider text-${p.accent}-400 mb-3">Key Highlights</h4>
+                        <div class="flex flex-wrap gap-4">
+                            ${p.highlights.map(h => `
+                                <div class="flex items-center gap-2 px-4 py-2 bg-gray-700 rounded-xl text-sm text-gray-300">
+                                    <i class="${h.icon} text-${p.accent}-400"></i>
+                                    <span>${h.label}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div class="flex gap-4 pt-2 border-t border-gray-700">
+                        <a href="${p.github}" target="_blank" class="flex items-center gap-2 px-5 py-2.5 bg-gray-700 hover:bg-gray-600 text-white rounded-xl text-sm font-semibold transition-colors">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                        <a href="${p.demo}" target="_blank" class="flex items-center gap-2 px-5 py-2.5 bg-${p.accent}-500 hover:bg-${p.accent}-400 text-gray-900 rounded-xl text-sm font-semibold transition-colors">
+                            <i class="fas fa-external-link-alt"></i> Live Demo
+                        </a>
+                    </div>
+                </div>
+            `;
+
+            const modal = document.getElementById('project-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeProjectModal(event) {
+            if (event && event.target !== document.getElementById('project-modal')) return;
+            _closeProjectModal();
+        }
+        function _closeProjectModal() {
+            const modal = document.getElementById('project-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') {
+                _closeProjectModal();
+                _closeCertificateModal();
+            }
+        });
+
+        // ── Contact modal ──
+        const contactModal = document.getElementById('contact-modal');
+        const formMessage = document.getElementById('form-message');
+        const submitBtn = document.getElementById('submit-btn');
+        const contactForm = document.getElementById('contact-form');
+
+        function openContactModal() {
+            contactModal.classList.remove('hidden');
+            contactModal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeContactModal(event) {
+            if (event && event.target !== contactModal) return;
+            contactModal.classList.add('hidden');
+            contactModal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+        function showMessage(msg, cls, hideAfter = 0) {
+            formMessage.textContent = msg;
+            formMessage.className = `text-center text-xs font-medium p-2 rounded-lg ${cls}`;
+            formMessage.classList.remove('hidden');
+            if (hideAfter > 0) setTimeout(() => formMessage.classList.add('hidden'), hideAfter);
+        }
+        async function handleContactSubmit(event) {
+            event.preventDefault();
+            const checkboxes = document.querySelectorAll('.interest-checkbox');
+            const selected = Array.from(checkboxes).filter(c => c.checked).map(c => c.value).join(', ');
+            if (!selected) { showMessage("Please select at least one area of interest.", "bg-red-500/20 text-red-300"); return; }
+            document.getElementById('user-interest-field').value = selected;
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+            showMessage("Sending your message...", "bg-indigo-500/20 text-indigo-300");
+            const isSimulated = PUBLIC_KEY.startsWith('YOUR');
+            try {
+                if (isSimulated) { await new Promise(r => setTimeout(r, 1500)); throw new Error("sim"); }
+                await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, contactForm);
+                showMessage("Thank you! Message sent successfully.", "bg-teal-500/20 text-teal-300");
+                contactForm.reset();
+            } catch (e) {
+                if (isSimulated) { showMessage("(Demo) Message simulated successfully!", "bg-teal-500/20 text-teal-300", 3000); contactForm.reset(); }
+                else showMessage("Error sending message. Please try again.", "bg-red-500/20 text-red-300");
+            } finally {
+                submitBtn.textContent = 'Send Message';
+                submitBtn.disabled = false;
+                setTimeout(() => { contactModal.classList.add('hidden'); contactModal.classList.remove('flex'); document.body.style.overflow = 'auto'; }, 2500);
+            }
+        }
+
+        // ── Mobile menu ──
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        function toggleMobileMenu() {
+            mobileMenu.classList.toggle('hidden');
+            const icon = mobileMenuBtn.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        }
+        mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+
+        // ── Header scroll ──
+        window.addEventListener('scroll', () => {
+            document.getElementById('site-header').style.borderBottomColor =
+                window.scrollY > 50 ? 'rgba(99,102,241,0.3)' : 'rgba(31,41,55,0.6)';
+        });
+
+        // ── Init ──
+        renderProjectCards();
+        renderCertificateCards();
+    </script>
+</body>
+
+</html>
